@@ -1,0 +1,12 @@
+[package]
+name = "cipher-cracker"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+enigma-cracker = "0.1.0"
+enigma-simulator = "1.3.5"
+
+[features]
+default = ["enigma"]
+enigma = ["dep:enigma-cracker", "dep:enigma-simulator"]

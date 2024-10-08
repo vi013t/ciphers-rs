@@ -1,0 +1,33 @@
+[package]
+name = "enigma-simulator"
+version = "1.3.5"
+description = "An absurdly fast and highly flexible Enigma machine simulation, encryption, and decryption library."
+authors = ["Violet"]
+edition = "2021"
+license = "GPL-3.0"
+readme = "README.md"
+repository = "https://github.com/vi013t/enigma-simulator"
+
+[lib]
+path = "src/lib.rs"
+
+[package.metadata.commands]
+benchmark = "cargo test --test benchmarks --release -- --nocapture"
+test = "cargo test --test tests --release"
+
+[dependencies]
+anyhow = "1.0.89"
+colored = "2.1.0"
+strum = "0.26.3"
+strum_macros = "0.26.4"
+
+[dev-dependencies]
+rand = "0.8.5"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[lints.clippy]
+tabs_in_doc_comments = "allow"

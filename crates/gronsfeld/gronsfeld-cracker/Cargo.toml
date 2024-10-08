@@ -1,0 +1,10 @@
+[package]
+name = "gronsfeld-cracker"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gronsfeld = { path = "../gronsfeld", version = "0.1.0" }
+cipher-utils = { path = "../../cipher-utils", version = "0.1.0" }
+anyhow = "1.0.89"
+itertools = "0.13.0"
