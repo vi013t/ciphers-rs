@@ -1,0 +1,7 @@
+[package]
+name = "a1z26"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cipher-utils = { path = "../cipher-utils", version = "0.1.0" }

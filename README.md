@@ -2,7 +2,13 @@
 
 A massive collection of classic cryptographic tools for Rust.
 
-## Capabilities
+## General Purpose tools
+
+There is [a utilities crate](https://github.com/vi013t/ciphers-rs/tree/main/crates/cipher-utils) that provides various general classical cryptographic analysis utilities, such as index of coincidence, frequency analysis, etc. 
+
+Additionally, there is [a master "cipher-cracker" crate](https://github.com/vi013t/ciphers-rs/tree/main/crates/cipher-cracker) that identifies cipher types and delegates the decryption to a determined cipher type.
+
+## Ciphers
 
 The following describes the supported and planned cipher types:
 
@@ -23,7 +29,7 @@ The following describes the supported and planned cipher types:
 - [x] Gronsfeld
 - [ ] Hex
 - [ ] Hill
-- [ ] Morse Code
+- [x] Morse Code
 - [ ] Navajo Code Talker
 - [ ] Octal
 - [ ] One-Time Pad
@@ -41,3 +47,5 @@ The following describes the supported and planned cipher types:
 - [ ] Trithemius
 - [ ] Ubchi
 - [ ] Vigenere
+
+Additionally, there is [a utilities crate](https://github.com/vi013t/ciphers-rs/tree/main/crates/cipher-utils) that provides various general classical cryptographic analysis utilities, such as index of coincidence, frequency analysis, etc. 

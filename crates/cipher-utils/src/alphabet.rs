@@ -170,3 +170,5 @@ impl std::ops::Sub<u32> for AlphabetIndex {
         AlphabetIndex(((self.0 as i32 - rhs as i32 + 26) % 26) as u8)
     }
 }
+
+mod character_set {}

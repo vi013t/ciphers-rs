@@ -1,11 +1,11 @@
 [package]
 name = "cipher-utils"
-version = "0.1.0"
+version = "0.2.0"
 description = "A collection of various text and cryptographic analysis utilities for Rust."
 authors = ["Violet"]
 edition = "2021"
 license = "GPL-3.0"
-repository = "https://github.com/vi013t/ciphers-rs/crates/cipher-utils"
+repository = "https://github.com/vi013t/ciphers-rs/tree/main/crates/cipher-utils"
 
 [lib]
 path = "src/lib.rs"
@@ -14,5 +14,3 @@ path = "src/lib.rs"
 anyhow = "1.0.89"
 itertools = "0.13.0"
 lazy_static = "1.5.0"
-strum = "0.26.3"
-strum_macros = "0.26.4"

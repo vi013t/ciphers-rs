@@ -1,10 +1,12 @@
 pub mod alphabet;
-pub mod base64;
-pub mod frequency;
+pub mod character_set;
+pub mod cipher_type;
 pub mod score;
 
+/// The `frequency` module, providing various utilities relating to frequency analysis.
+pub mod frequency;
+
 use alphabet::Alphabet;
-use strum::IntoEnumIterator;
 
 pub trait Analyze {
     fn index_of_coincidence(&self) -> f64;
@@ -48,37 +50,5 @@ impl<T: AsRef<str>> Analyze for T {
 
     fn alphabet(&self) -> Alphabet {
         Alphabet::of_cased(self.as_ref())
-    }
-}
-
-#[derive(strum_macros::EnumIter, Clone, Copy)]
-pub enum Language {
-    English,
-    French,
-    German,
-    Italian,
-    Russian,
-    Spanish,
-}
-
-impl Language {
-    pub fn best_match(text: &str) -> Language {
-        let ioc = text.index_of_coincidence();
-        Language::iter()
-            .map(|language| (language, (language.index_of_coincidence() - ioc).abs()))
-            .min_by(|first, second| first.1.total_cmp(&second.1))
-            .unwrap()
-            .0
-    }
-
-    pub fn index_of_coincidence(&self) -> f64 {
-        match self {
-            Self::English => 0.0667,
-            Self::French => 0.0778,
-            Self::German => 0.0762,
-            Self::Italian => 0.0738,
-            Self::Russian => 0.0529,
-            Self::Spanish => 0.0770,
-        }
     }
 }

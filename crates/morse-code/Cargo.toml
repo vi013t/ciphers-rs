@@ -1,0 +1,15 @@
+[package]
+name = "morse-code-cipher"
+authors = ["Violet"]
+version = "0.1.0"
+description = "A simple and flexible morse code encryption and decryption library for Rust."
+edition = "2021"
+license = "GPL-3.0"
+readme = "README.md"
+repository = "https://github.com/vi013t/ciphers-rs/tree/main/crates/morse-code"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+phf = { version = "0.11.2", features = ["macros"] }

@@ -28,12 +28,12 @@ impl PossiblePlaintext {
     /// - Bigram Frequency
     /// - Trigram Frequency
     /// - Quadram Frequency
-    pub fn score(&self) -> u32 {
-        let ioc_score = (0.0667 - self.0.index_of_coincidence()).abs();
+    pub fn score(&self) -> f64 {
+        let ioc_score = 1. - (self.0.index_of_coincidence() - 0.0667).abs() / 0.9333;
         let frequency_distribution_score = frequency::distribution_score(&self.0);
         let frequency_character_score = frequency::character_score(&self.0);
 
-        todo!()
+        3. * ioc_score + frequency_character_score + frequency_distribution_score / 5.
     }
 
     /// Returns the original text of this plaintext.
@@ -97,6 +97,6 @@ impl std::cmp::PartialOrd for PossiblePlaintext {
 
 impl std::cmp::Ord for PossiblePlaintext {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        self.score().cmp(&other.score())
+        self.score().total_cmp(&other.score())
     }
 }

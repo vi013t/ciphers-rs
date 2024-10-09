@@ -1,5 +1,6 @@
 use itertools::Itertools;
 
+// Re import self just for readability, i.e., `frequency::of()` vs just `of()`.
 use crate::frequency;
 
 /// Returns the frequencies of each letter of the English alphabet as a map between
@@ -47,7 +48,8 @@ pub fn english_uppercase() -> &'static std::collections::HashMap<char, f64> {
 
 /// Returns a frequency map of the given text. The returned map maps characters to
 /// the percent of the entire string that the character makes up. To get the counts of each character,
-/// use `Frequency::counts()`.
+/// use `frequency::counts()`. This is also case-insensitive; The case-sensitive version is
+/// `frequency::of_cased`.
 ///
 /// # Performance
 /// This is `O(n)`.
@@ -56,6 +58,23 @@ pub fn english_uppercase() -> &'static std::collections::HashMap<char, f64> {
 /// A map of characters and the percentage of the string they make up.
 pub fn of(text: &str) -> std::collections::HashMap<char, f64> {
     frequency::counts(text)
+        .into_iter()
+        .map(|(character, count)| (character, count as f64 / text.len() as f64))
+        .collect()
+}
+
+/// Returns a frequency map of the given text. The returned map maps characters to
+/// the percent of the entire string that the character makes up. To get the counts of each character,
+/// use `frequency::counts()`. This is also case-sensitive; The case-insensitive version is
+/// `frequency::of`.
+///
+/// # Performance
+/// This is `O(n)`.
+///
+/// # Returns
+/// A map of characters and the percentage of the string they make up.
+pub fn of_cased(text: &str) -> std::collections::HashMap<char, f64> {
+    frequency::cased_counts(text)
         .into_iter()
         .map(|(character, count)| (character, count as f64 / text.len() as f64))
         .collect()
@@ -77,6 +96,18 @@ pub fn counts(text: &str) -> std::collections::HashMap<char, usize> {
     text.to_lowercase().chars().counts()
 }
 
+/// Returns a frequency map of the given text. The turned map maps characters to the number of
+/// times they appear in the given string. To get a frequency map that maps characters to percentages,
+/// use `frequency::of_cased()`.
+///
+/// This function treats uppercase and lowercase as different, and the returned map contains mappings for both
+/// that are present. Use `frequency::counts()` to retrieve a map that's case-insensitive.
+///
+/// # Performance
+/// This is `O(n)`.
+///
+/// # Returns
+/// A map of characters and the number of times they appear in the given string.
 pub fn cased_counts(text: &str) -> std::collections::HashMap<char, usize> {
     text.chars().counts()
 }
@@ -135,9 +166,29 @@ pub fn closest_english_letter(frequency: f64) -> char {
 ///
 /// # Returns
 /// The frequency distribution fitness score, in `(0, 1]`.
-pub fn distribution_score(text: &str) -> f64 {}
+pub fn distribution_score(text: &str) -> f64 {
+    let frequency_map = frequency::of(text);
+    let frequencies = frequency_map.iter().map(|item| item.1).sorted_by(|item, other| item.total_cmp(other)).rev();
+    let english_frequencies = ENGLISH_LOWERCASE_FREQUENCY.values().sorted_by(|item, other| item.total_cmp(other)).rev();
+    let mut differences = Vec::new();
+    for (frequency, english_frequency) in frequencies.zip(english_frequencies) {
+        differences.push(1. - (frequency - english_frequency).abs() / 0.99926);
+    }
 
-pub fn character_score(text: &str) -> f64 {}
+    differences.iter().fold(0., |accumulator, current| accumulator + current) / differences.len() as f64
+}
+
+pub fn character_score(text: &str) -> f64 {
+    let scores = frequency::of(text)
+        .into_iter()
+        .filter_map(|(character, frequency)| {
+            ENGLISH_FREQUENCY
+                .get(&character)
+                .map(|english_frequency| 1. - (frequency - english_frequency).abs() / 0.99926)
+        })
+        .collect::<Vec<_>>();
+    scores.iter().fold(0., |accumulator, current| accumulator + current) / scores.len() as f64
+}
 
 lazy_static::lazy_static! {
     static ref ENGLISH_LOWERCASE_FREQUENCY: std::collections::HashMap<char, f64> = std::collections::HashMap::from([
