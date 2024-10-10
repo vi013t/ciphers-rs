@@ -6,6 +6,12 @@ pub struct Alphabet {
     cased: bool,
 }
 
+impl Default for Alphabet {
+    fn default() -> Self {
+        Self::caseless("ABCDEFGHIJKLMNOPQRSTUVWXYZ").unwrap()
+    }
+}
+
 impl Alphabet {
     pub fn cased(alphabet: &str) -> anyhow::Result<Self> {
         let mut chars = alphabet.chars().collect::<Vec<_>>();
@@ -107,6 +113,15 @@ impl Alphabet {
     pub fn union(&self, other: &Self) -> Self {
         Alphabet::of_cased(&self.characters.iter().chain(other.characters.iter()).collect::<String>())
     }
+
+    pub fn shift(&self, shift: u8) -> Self {
+        let mut characters = String::new();
+        for index in 1..=26 {
+            let alphabet_index = AlphabetIndex::new(index).unwrap();
+            characters.push(*self.letter_at(alphabet_index + shift));
+        }
+        Alphabet::caseless(&characters).unwrap()
+    }
 }
 
 lazy_static::lazy_static! {
@@ -124,6 +139,16 @@ lazy_static::lazy_static! {
 /// and subtraction to be performed mod 26 with operator overloading.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct AlphabetIndex(u8);
+
+impl AlphabetIndex {
+    pub fn new(index: u8) -> anyhow::Result<Self> {
+        if !(1..=26).contains(&index) {
+            anyhow::bail!("Alphabet index out of range: {index}")
+        }
+
+        Ok(Self(index))
+    }
+}
 
 impl std::ops::Deref for AlphabetIndex {
     type Target = u8;
@@ -155,6 +180,22 @@ impl std::ops::Add<u32> for AlphabetIndex {
     }
 }
 
+impl std::ops::Add<u8> for AlphabetIndex {
+    type Output = AlphabetIndex;
+
+    fn add(self, rhs: u8) -> Self::Output {
+        AlphabetIndex((self.0 + rhs) % 26)
+    }
+}
+
+impl std::ops::Add<i32> for AlphabetIndex {
+    type Output = AlphabetIndex;
+
+    fn add(self, rhs: i32) -> Self::Output {
+        AlphabetIndex((self.0 + rhs as u8) % 26)
+    }
+}
+
 impl std::ops::Sub<AlphabetIndex> for AlphabetIndex {
     type Output = AlphabetIndex;
 
@@ -170,5 +211,3 @@ impl std::ops::Sub<u32> for AlphabetIndex {
         AlphabetIndex(((self.0 as i32 - rhs as i32 + 26) % 26) as u8)
     }
 }
-
-mod character_set {}

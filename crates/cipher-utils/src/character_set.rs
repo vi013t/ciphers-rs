@@ -52,7 +52,7 @@ lazy_static::lazy_static! {
     pub static ref LOWERCASE_ALPHABETIC: CharacterSet = CharacterSet::of("abcdefghijklmnopqrstuvwxyz");
     pub static ref UPPERCASE_ALPHABETIC: CharacterSet = CharacterSet::of("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     pub static ref ALPHABETIC: CharacterSet = CharacterSet::of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    pub static ref BASE_64: CharacterSet = CharacterSet::of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/");
+    pub static ref BASE_64: CharacterSet = CharacterSet::raw("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/");
     pub static ref MORSE: CharacterSet = CharacterSet::raw("-./");
     pub static ref NUMERIC: CharacterSet = CharacterSet::of("0123456789");
     pub static ref ALPHANUMERIC: CharacterSet = CharacterSet::of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");

@@ -1,0 +1,11 @@
+[package]
+name = "octal-cipher"
+version = "0.1.0"
+description = "An octal-to-ASCII and ascii-to-octal encryption and decryption library for Rust."
+authors = ["Violet"]
+edition = "2021"
+readme = "README.md"
+license = "GPL-3.0"
+
+[dependencies]
+anyhow = "1.0.89"

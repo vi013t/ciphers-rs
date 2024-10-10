@@ -25,13 +25,14 @@ The following describes the supported and planned cipher types:
 - [ ] Columnar Transposition
 - [x] Enigma M3
 - [ ] Enigma M4
+- [ ] Four-Square
 - [ ] Fractionated Morse
 - [x] Gronsfeld
 - [ ] Hex
 - [ ] Hill
 - [x] Morse Code
 - [ ] Navajo Code Talker
-- [ ] Octal
+- [x] Octal
 - [ ] One-Time Pad
 - [ ] Playfair
 - [ ] Polybius Square
@@ -39,13 +40,11 @@ The following describes the supported and planned cipher types:
 - [ ] Purple
 - [ ] Rail Fence
 - [ ] Rot-13
-- [ ] Running Key 
+- [x] Running Key 
 - [ ] Scytale
 - [ ] Simplified Lorenz
 - [ ] Straddling Checkerboard
 - [ ] Trifid
 - [ ] Trithemius
 - [ ] Ubchi
-- [ ] Vigenere
-
-Additionally, there is [a utilities crate](https://github.com/vi013t/ciphers-rs/tree/main/crates/cipher-utils) that provides various general classical cryptographic analysis utilities, such as index of coincidence, frequency analysis, etc. 
+- [x] Vigenere

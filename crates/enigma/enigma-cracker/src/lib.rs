@@ -124,9 +124,9 @@ fn index_of_coincidence(text: &str) -> f64 {
     numerator as f64 / denominator as f64
 }
 
-fn best_plugboard(plugboard: &str, reflector: &str, ciphertext: &str) -> EnigmaResult<String> {
-    let mut plugboard = std::collections::HashMap::new();
-}
+// fn best_plugboard(plugboard: &str, reflector: &str, ciphertext: &str) -> EnigmaResult<String> {
+//     let mut plugboard = std::collections::HashMap::new();
+// }
 
 #[cfg(test)]
 mod tests {

@@ -14,7 +14,7 @@ pub enum CipherType {
 
 impl CipherType {
     pub fn best_match(ciphertext: &str) -> Option<Self> {
-        let characters = CharacterSet::of(ciphertext);
+        let characters = CharacterSet::raw(ciphertext);
 
         if characters == *character_set::MORSE {
             return Some(Self::Morse);
@@ -23,6 +23,8 @@ impl CipherType {
         if characters == *character_set::BASE_64 {
             return Some(Self::Base64);
         }
+
+        let characters = CharacterSet::of(ciphertext);
 
         if characters == *character_set::OCTAL {
             return Some(Self::Octal);
