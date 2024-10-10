@@ -1,6 +1,6 @@
 use itertools::Itertools as _;
 
-use crate::{frequency, Analyze};
+use crate::{dictionary, frequency, Analyze};
 
 /// A possible plaintext. The `PossiblePlaintext` struct provides utilities for analyzing
 /// and scoring texts that may be plaintexts. This is useful for brute-forcing ciphers, when
@@ -24,6 +24,7 @@ impl PossiblePlaintext {
     /// indicates a better plaintext. The score is calculated from:
     ///
     /// - Index of coincidence
+    /// - Word commonality
     /// - Monogram Frequency
     /// - Bigram Frequency
     /// - Trigram Frequency
@@ -32,8 +33,17 @@ impl PossiblePlaintext {
         let ioc_score = 1. - (self.0.index_of_coincidence() - 0.0667).abs() / 0.9333;
         let frequency_distribution_score = frequency::distribution_score(&self.0);
         let frequency_character_score = frequency::character_score(&self.0);
+        let bigram_distribution_score = frequency::bigram_distribution_score(&self.0);
 
-        3. * ioc_score + frequency_character_score + frequency_distribution_score / 5.
+        let mut scores = vec![ioc_score, frequency_character_score, frequency_distribution_score, bigram_distribution_score];
+
+        // Multiple words - check for commonality
+        if self.0.contains(' ') {
+            let word_score = dictionary::average_commonality_score(&self.0);
+            scores.push(word_score);
+        }
+
+        scores.iter().fold(0., |accumulator, current| accumulator + current) / scores.len() as f64
     }
 
     /// Returns the original text of this plaintext.

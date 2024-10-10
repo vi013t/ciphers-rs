@@ -178,6 +178,18 @@ pub fn distribution_score(text: &str) -> f64 {
     differences.iter().fold(0., |accumulator, current| accumulator + current) / differences.len() as f64
 }
 
+pub fn bigram_distribution_score(text: &str) -> f64 {
+    let frequency_map = frequency::of(text);
+    let frequencies = frequency_map.iter().map(|item| item.1).sorted_by(|item, other| item.total_cmp(other)).rev();
+    let english_frequencies = ENGLISH_BIGRAM_FREQUENCY.values().sorted_by(|item, other| item.total_cmp(other)).rev();
+    let mut differences = Vec::new();
+    for (frequency, english_frequency) in frequencies.zip(english_frequencies) {
+        differences.push(1. - (frequency - english_frequency).abs() / 0.99926);
+    }
+
+    differences.iter().fold(0., |accumulator, current| accumulator + current) / differences.len() as f64
+}
+
 pub fn character_score(text: &str) -> f64 {
     let scores = frequency::of(text)
         .into_iter()
@@ -301,4 +313,53 @@ lazy_static::lazy_static! {
         ('Y', 0.020),
         ('Z', 0.00074)
     ]);
+
+    // https://en.wikipedia.org/wiki/Bigram
+    static ref ENGLISH_BIGRAM_FREQUENCY: std::collections::HashMap<&'static str, f64> = std::collections::HashMap::from([
+        ("th", 0.0356),
+        ("he", 0.0307),
+        ("in", 0.0245),
+        ("er", 0.0205),
+        ("an", 0.0199),
+        ("re", 0.0185),
+        ("on", 0.0176),
+        ("at", 0.0149),
+        ("en", 0.0145),
+        ("nd", 0.0135),
+        ("ti", 0.0134),
+        ("es", 0.0134),
+        ("or", 0.0128),
+        ("te", 0.0120),
+        ("of", 0.0117),
+        ("ed", 0.0117),
+        ("is", 0.0113),
+        ("it", 0.0112),
+        ("al", 0.0109),
+        ("ar", 0.0107),
+        ("st", 0.0105),
+        ("to", 0.0105),
+        ("nt", 0.0104),
+        ("ng", 0.0095),
+        ("se", 0.0093),
+        ("ha", 0.0093),
+        ("as", 0.0087),
+        ("ou", 0.0087),
+        ("io", 0.0083),
+        ("le", 0.0083),
+        ("ve", 0.0083),
+        ("co", 0.0079),
+        ("me", 0.0079),
+        ("de", 0.0076),
+        ("hi", 0.0076),
+        ("ri", 0.0073),
+        ("ro", 0.0073),
+        ("ic", 0.0070),
+        ("ne", 0.0069),
+        ("ea", 0.0069),
+        ("ra", 0.0069),
+        ("ce", 0.0065),
+    ]);
 }
+
+/// A list of all two-letter English words from most to least common.
+pub static TWO_LETTER_ENGLISH_WORDS: &[&str] = &["of", "to, in, it, is, be, as, at, so, we, he, by, or, on, do, if, me, my, up, an, go, no, us", "am"];

@@ -1,7 +1,9 @@
 pub mod alphabet;
 pub mod character_set;
 pub mod cipher_type;
+pub mod dictionary;
 pub mod score;
+pub mod tabula_recta;
 
 /// The `frequency` module, providing various utilities relating to frequency analysis.
 pub mod frequency;

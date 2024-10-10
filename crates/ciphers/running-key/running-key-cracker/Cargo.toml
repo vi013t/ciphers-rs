@@ -1,0 +1,11 @@
+[package]
+name = "running-key-cracker"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+cipher-utils = { version = "0.3.0", path = "../../cipher-utils" }
+running-key = { version = "0.1.0", path = "../running-key" }

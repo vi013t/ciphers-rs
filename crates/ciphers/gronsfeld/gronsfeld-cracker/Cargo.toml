@@ -1,0 +1,16 @@
+[package]
+name = "gronsfeld-cracker"
+version = "0.1.0"
+description = "An efficient brute-force Gronsfeld cipher decryption library for Rust."
+authors = ["Violet"]
+license = "GPL-3.0"
+edition = "2021"
+repository = "https://github.com/vi013t/ciphers-rs/tree/main/crates/gronsfeld/gronsfeld-cracker"
+readme = "README.md"
+
+[dependencies]
+gronsfeld = { path = "../gronsfeld", version = "0.2.0" }
+cipher-utils = { path = "../../../cipher-utils", version = "0.2.0" }
+anyhow = "1.0.89"
+itertools = "0.13.0"
+colored = "2.1.0"

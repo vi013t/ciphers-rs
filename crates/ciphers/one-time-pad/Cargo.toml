@@ -1,0 +1,15 @@
+[package]
+name = "one-time-pad"
+version = "0.1.0"
+description = "An actually unbreakable one-time-pad encryption and decryption library for Rust."
+authors = ["Violet"]
+edition = "2021"
+license = "GPL-3.0"
+readme = "README.md"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+rand = "0.8.5"
+vigenere-lib = { version = "0.2.0", path = "../vigenere/vigenere" }
