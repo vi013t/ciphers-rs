@@ -33,7 +33,7 @@ The following describes the supported and planned cipher types:
 - [x] Morse Code
 - [ ] Navajo Code Talker
 - [x] Octal
-- [ ] One-Time Pad
+- [x] One-Time Pad
 - [ ] Playfair
 - [ ] Polybius Square
 - [ ] Porta
