@@ -1,6 +1,15 @@
 [package]
-name = "base64"
+name = "base64-cipher"
 version = "0.1.0"
+description = "A base 64 encoding and decoding library for Rust."
+authors = ["Violet"]
+license = "GPL-3.0"
+readme = "README.md"
 edition = "2021"
 
+[lib]
+path = "src/lib.rs"
+
 [dependencies]
+anyhow = "1.0.89"
+itertools = "0.13.0"

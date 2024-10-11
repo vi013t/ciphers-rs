@@ -97,7 +97,7 @@ impl GronsfeldBuilder for anyhow::Result<IncompleteGronsfeld> {
 
     fn key_str(self, key: &str) -> Self {
         if let Ok(mut gronsfeld) = self {
-            gronsfeld.key = Some(u128::from_str_radix(key, 10)?);
+            gronsfeld.key = Some(key.parse()?);
             Ok(gronsfeld)
         } else {
             self

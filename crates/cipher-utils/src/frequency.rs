@@ -199,6 +199,11 @@ pub fn character_score(text: &str) -> f64 {
                 .map(|english_frequency| 1. - (frequency - english_frequency).abs() / 0.99926)
         })
         .collect::<Vec<_>>();
+
+    if scores.len() == 0 {
+        return 0.;
+    }
+
     scores.iter().fold(0., |accumulator, current| accumulator + current) / scores.len() as f64
 }
 

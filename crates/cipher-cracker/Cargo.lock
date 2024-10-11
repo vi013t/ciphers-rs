@@ -9,10 +9,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "86fdf8605db99b54d3cd748a44c6d04df638eb5dafb219b135d0149bd0db01f6"
 
 [[package]]
+name = "base64-cipher"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "itertools",
+]
+
+[[package]]
 name = "cipher-cracker"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "base64-cipher",
  "cipher-utils",
  "colored",
  "enigma-cracker",
@@ -21,11 +30,13 @@ dependencies = [
  "gronsfeld-cracker",
  "morse-code-cipher",
  "octal-cipher",
+ "vigenere-cracker",
+ "vigenere-lib",
 ]
 
 [[package]]
 name = "cipher-utils"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "itertools",
@@ -79,7 +90,7 @@ dependencies = [
 
 [[package]]
 name = "gronsfeld"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "anyhow",
  "cipher-utils",
@@ -253,6 +264,18 @@ name = "unicode-ident"
 version = "1.0.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e91b56cd4cadaeb79bbf1a5645f6b4f8dc5bde8834ad5894a8db35fda9efa1fe"
+
+[[package]]
+name = "vigenere-cracker"
+version = "0.1.0"
+
+[[package]]
+name = "vigenere-lib"
+version = "0.2.0"
+dependencies = [
+ "anyhow",
+ "cipher-utils",
+]
 
 [[package]]
 name = "windows-sys"

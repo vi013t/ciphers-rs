@@ -24,30 +24,29 @@ pub trait Analyze {
 
 impl<T: AsRef<str>> Analyze for T {
     fn index_of_coincidence(&self) -> f64 {
-        let mut frequency = [0u32; 26];
-        let mut total_letters = 0;
+        let mut frequency: std::collections::HashMap<char, usize> = std::collections::HashMap::new();
+        let mut total_chars = 0;
 
+        // Count frequency of each letter (case insensitive)
         for c in self.as_ref().chars() {
             if c.is_alphabetic() {
-                let idx = c.to_ascii_lowercase() as usize - 'a' as usize;
-                frequency[idx] += 1;
-                total_letters += 1;
+                let c = c.to_ascii_lowercase();
+                *frequency.entry(c).or_insert(0) += 1;
+                total_chars += 1;
             }
         }
 
-        if total_letters < 2 {
-            return 0.0;
+        // Calculate the IC
+        let mut ic = 0.0;
+        for &count in frequency.values() {
+            ic += (count * (count - 1)) as f64;
         }
 
-        let mut numerator = 0u32;
-
-        for &count in &frequency {
-            numerator += count * (count - 1);
+        if total_chars > 1 {
+            ic /= (total_chars * (total_chars - 1)) as f64;
         }
 
-        let denominator = total_letters * (total_letters - 1);
-
-        numerator as f64 / denominator as f64
+        ic
     }
 
     fn alphabet(&self) -> Alphabet {

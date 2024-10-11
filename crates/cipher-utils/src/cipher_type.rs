@@ -14,32 +14,37 @@ pub enum CipherType {
 
 impl CipherType {
     pub fn best_match(ciphertext: &str) -> Option<Self> {
-        let characters = CharacterSet::raw(ciphertext);
+        let raw = CharacterSet::raw(ciphertext);
 
-        if characters == *character_set::MORSE {
+        if character_set::MORSE.is_superset_of(&raw) {
             return Some(Self::Morse);
         }
 
-        if characters == *character_set::BASE_64 {
-            return Some(Self::Base64);
-        }
-
-        let characters = CharacterSet::of(ciphertext);
-
-        if characters == *character_set::OCTAL {
+        if character_set::OCTAL.is_superset_of(&raw) {
             return Some(Self::Octal);
         }
 
-        if characters == *character_set::HEX {
+        if character_set::HEX.is_superset_of(&raw) {
             return Some(Self::Hex);
         }
 
-        if characters.is_alphabetic() {
-            if (0.6..0.75).contains(&ciphertext.index_of_coincidence()) {
-                return Some(Self::Transposition);
-            } else {
-                return Some(Self::Substitution);
+        let alphanumeric = CharacterSet::of(ciphertext);
+
+        if character_set::ALPHANUMERIC.is_superset_of(&alphanumeric) {
+            let capitals = ciphertext.chars().filter(|char| char.is_uppercase()).count();
+            let lowercase = ciphertext.chars().filter(|char| char.is_lowercase()).count();
+
+            if (capitals as f64) < 0.1 * lowercase as f64 {
+                if (0.6..0.75).contains(&ciphertext.index_of_coincidence()) {
+                    return Some(Self::Transposition);
+                } else {
+                    return Some(Self::Substitution);
+                }
             }
+        }
+
+        if character_set::BASE_64.is_superset_of(&alphanumeric) {
+            return Some(Self::Base64);
         }
 
         None

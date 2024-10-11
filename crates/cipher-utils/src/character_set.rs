@@ -17,12 +17,20 @@ impl CharacterSet {
 
     pub fn raw(text: &str) -> Self {
         CharacterSet {
-            characters: text.chars().collect(),
+            characters: text.chars().filter(|char| !char.is_whitespace()).collect(),
         }
     }
 
     pub fn contains(&self, character: char) -> bool {
         self.characters.contains(&character)
+    }
+
+    pub fn is_superset_of(&self, other: &Self) -> bool {
+        other.characters.iter().all(|character| self.contains(*character))
+    }
+
+    pub fn without(&self, characters: &str) -> Self {
+        Self::of(&self.characters.iter().filter(|character| !characters.contains(&character.to_string())).collect::<String>())
     }
 
     pub fn characters(&self) -> &std::collections::HashSet<char> {
@@ -52,7 +60,7 @@ lazy_static::lazy_static! {
     pub static ref LOWERCASE_ALPHABETIC: CharacterSet = CharacterSet::of("abcdefghijklmnopqrstuvwxyz");
     pub static ref UPPERCASE_ALPHABETIC: CharacterSet = CharacterSet::of("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     pub static ref ALPHABETIC: CharacterSet = CharacterSet::of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    pub static ref BASE_64: CharacterSet = CharacterSet::raw("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/");
+    pub static ref BASE_64: CharacterSet = CharacterSet::raw("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=");
     pub static ref MORSE: CharacterSet = CharacterSet::raw("-./");
     pub static ref NUMERIC: CharacterSet = CharacterSet::of("0123456789");
     pub static ref ALPHANUMERIC: CharacterSet = CharacterSet::of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");

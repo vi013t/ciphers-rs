@@ -2,7 +2,7 @@
 name = "gronsfeld"
 authors = ["Violet"]
 description = "A Gronsfeld cipher encryption and decryption library for Rust."
-version = "0.2.0"
+version = "0.2.1"
 license = "GPL-3.0"
 README = "README.md"
 edition = "2021"
@@ -13,4 +13,4 @@ path = "src/lib.rs"
 
 [dependencies]
 anyhow = "1.0.89"
-cipher-utils = { path = "../../cipher-utils", version = "0.2.0" }
+cipher-utils = { path = "../../../cipher-utils", version = "0.3.0" }
